@@ -1,17 +1,10 @@
-# def aver(self):
-#     count = 0
-#     _sum = 0
-#     gr = []
-#     for grades in self.grades.values():
-#         count = count + 1
-#         gr = grades
-#         print(gr)
-#         _sum = _sum + grades
-#         print(grades)
-#         print(count)
-#     self.avarage = _sum / count
-#     print(self.avarage)
-
+def average(self):
+    count = 0
+    _sum = 0
+    for grades in self.grades.values():
+        count = count + 1
+        _sum += sum(grades) / len(grades)
+    self.avarage =round(_sum / count, 2)
 
 class Student:
     def __init__(self, name, surname, gender):
@@ -25,10 +18,10 @@ class Student:
 
     def student_rate(self, lector, course, grade):
         if isinstance(lector, Lecturer) and course in lector.courses_attached and course in self.courses_in_progress:
-            if course in lector.lec_grades:
-                lector.lec_grades[course] += [grade]
+            if course in lector.grades:
+                lector.grades[course] += [grade]
             else:
-                lector.lec_grades[course] = [grade]
+                lector.grades[course] = [grade]
         else:
              return 'Ошибка'
 
@@ -44,7 +37,7 @@ class Student:
     def __lt__(self, other):
         if not isinstance(other, Student):
             return
-        return self.grades < other.grades
+        return self.avarage < other.avarage
 
 
 class Mentor:
@@ -56,22 +49,19 @@ class Mentor:
 class Lecturer(Mentor):
     def __init__(self, name, surname):
         super().__init__(name, surname)
-        self.lec_grades = {}
+        self.grades = {}
+        self.avarage = 0
 
-    # def average_lec_rating(self, lector, course):
-    #     if isinstance(lector, Lecturer):
-    #         for cource in self.courses_attached:
-    #             print(cource)
-    #             pass
+
 
     def __str__(self):
-        text = f"Имя: {self.name} \nФамилия: {self.surname} \nСредняя оценка за лекцию: {  self.lec_grades.values()} "
+        text = f"Имя: {self.name} \nФамилия: {self.surname} \nСредняя оценка за лекцию: {self.avarage} "
         return text
 
     def __lt__(self, other):
         if not isinstance(other, Lecturer):
             return
-        return self.lec_grades < other.lec_grades
+        return self.avarage < other.avarage
 
 class Reviewer(Mentor):
     def __init__(self, name, surname):
@@ -107,27 +97,37 @@ best_student.student_rate(Cool_Lecturer, 'Python', 10)
 best_student.student_rate(Cool_Lecturer, 'Python', 9)
 best_student.student_rate(Cool_Lecturer, 'Python', 8)
 
+
+
 new_cool_lecturer = Lecturer('Valera', 'Pupkin')
 new_cool_lecturer.courses_attached += ['IZO']
-
-new_cool_lecturer.average_lec_rating()
 
 new_student.student_rate(new_cool_lecturer, 'IZO', 9)
 new_student.student_rate(new_cool_lecturer, 'IZO', 5)
 
-print(new_cool_lecturer)
-
+# print(Cool_Lecturer)
 
 new_mentor = Reviewer('Павел', 'Антонов')
-new_mentor.courses_attached += ['Python']
+new_mentor.courses_attached += ['Python', 'IZO']
 
 new_mentor.rate_hw(best_student, 'Python', 5)
 new_mentor.rate_hw(best_student, 'Python', 10)
 new_mentor.rate_hw(best_student, 'Python', 2)
 
+new_mentor.rate_hw(new_student, 'IZO', 5)
+new_mentor.rate_hw(new_student, 'IZO', 10)
 
 
 
-print(best_student)
+average(Cool_Lecturer)
+average(new_cool_lecturer)
+average(best_student)
+average(new_student)
+print(new_student)
+# average(new_student)
+# print(best_student)
+# print(new_cool_lecturer)
 
 
+
+# print(Cool_Lecturer < new_cool_lecturer)
