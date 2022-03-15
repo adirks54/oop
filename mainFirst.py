@@ -147,6 +147,5 @@ print(best_student > new_student)
 student_list = [best_student, new_student]
 lecturer_list = [Cool_Lecturer, new_cool_lecturer]
 
-
 print(lecturer_ratings(lecturer_list, 'Python'))
 print(student_rating(student_list, 'Python'))
